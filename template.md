@@ -287,3 +287,56 @@ litters_df =
                'GD0 weight' = col_factor()
              ))
 ```
+
+## other file types
+
+``` r
+library(readxl)
+```
+
+``` r
+#import a xlsx file
+mlb_df =
+  read_excel("mlb11.xlsx")
+```
+
+## import SAS file
+
+``` r
+library(haven)
+```
+
+``` r
+pulse_df = 
+  read_sas("public_pulse_data.sas7bdat")
+```
+
+## base R
+
+``` r
+litters_df =
+  read.csv("FAS_litters.csv")
+litters_df$Group
+```
+
+## export data
+
+``` r
+litters_df_cleaned =
+  read_csv("FAS_litters.csv")
+```
+
+    ## Rows: 49 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+litters_df_cleaned =
+  janitor::clean_names(litters_df_cleaned)
+write_csv(litters_df_cleaned, "FAS_litters_cleaned.csv")
+```
