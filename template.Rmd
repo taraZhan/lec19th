@@ -1,21 +1,50 @@
 ---
 title: "Simple document"
-output: html_document
+output: github_document
 ---
 
-I'm an R Markdown document! 
-
-# Section 1
-
-Here's a **code chunk** that samples from 
-a _normal distribution_:
-
 ```{r}
-samp = rnorm(100)
-length(samp)
+library(tidyverse)
+```
+Importing "FAS_litters.csv' using relative path. 
+```{r}
+litters_df=
+  read.csv("FAS_litters.csv")
+
+litters_df =
+  janitor::clean_names(litters_df)
+```
+Importing same file using absolute path
+code:
+litters_df_abs = 
+  read.csv("~/FAS_litters.csv")
+
+Importing "FAS_pups.csv' using relative path. 
+```{r}
+pups_df=
+  read.csv("FAS_pups.csv")
+
+pups_df =
+  janitor::clean_names(pups_df)
 ```
 
-# Section 2
+Look at data:
+```{r}
+litters_df
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+head(litters_df) #only print first 6 instead of 10 rows
+
+tail(litters_df) #only print last 6 instead of 10 rows
+```
+
+```{r, eval=FALSE}
+view(litters_df)
+```
+
+Chacking the data summary:
+```{r}
+str(litters_df)
+
+skimr::skim(litters_df)
+```
+
