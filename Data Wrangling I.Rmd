@@ -1,12 +1,14 @@
 ---
-title: "Simple document"
+title: "Lec_Sep.19th/21st/"
 output: github_document
 ---
 
 ```{r}
 library(tidyverse)
 ```
-Importing "FAS_litters.csv' using relative path. 
+
+Importing "FAS_litters.csv' using relative path.
+
 ```{r}
 litters_df=
   read.csv("FAS_litters.csv")
@@ -14,12 +16,11 @@ litters_df=
 litters_df =
   janitor::clean_names(litters_df)
 ```
-Importing same file using absolute path
-code:
-litters_df_abs = 
-  read.csv("~/FAS_litters.csv")
 
-Importing "FAS_pups.csv' using relative path. 
+Importing same file using absolute path code: litters_df_abs = read.csv("\~/FAS_litters.csv")
+
+Importing "FAS_pups.csv' using relative path.
+
 ```{r}
 pups_df=
   read.csv("FAS_pups.csv")
@@ -29,6 +30,7 @@ pups_df =
 ```
 
 Look at data:
+
 ```{r}
 litters_df
 
@@ -42,14 +44,15 @@ view(litters_df)
 ```
 
 Chacking the data summary:
+
 ```{r}
 str(litters_df)
 
 skimr::skim(litters_df)
 ```
 
-
 ## options in `read_*`
+
 ```{r}
 litters_df = 
   read_csv(
@@ -57,14 +60,18 @@ litters_df =
     skip = 10, col_names = FALSE
     )
 ```
+
 look at NA variables
+
 ```{r}
 litters_df =
   read_csv(
     "FAS_litters.csv", 
     na=c("NA", 19, "."))
 ```
+
 column type
+
 ```{r}
 litters_df =
   read_csv("FAS_litters.csv",
@@ -75,6 +82,7 @@ litters_df =
 ```
 
 ## other file types
+
 ```{r}
 library(readxl)
 ```
@@ -86,6 +94,7 @@ mlb_df =
 ```
 
 ## import SAS file
+
 ```{r}
 library(haven)
 ```
@@ -95,16 +104,16 @@ pulse_df =
   read_sas("public_pulse_data.sas7bdat")
 ```
 
-
 ## base R
+
 ```{r, eval=FALSE}
 litters_df =
   read.csv("FAS_litters.csv")
 litters_df$Group
 ```
 
-
 ## export data
+
 ```{r}
 litters_df_cleaned =
   read_csv("FAS_litters.csv")
@@ -112,5 +121,50 @@ litters_df_cleaned =
 litters_df_cleaned =
   janitor::clean_names(litters_df_cleaned)
 write_csv(litters_df_cleaned, "FAS_litters_cleaned.csv")
+```
+
+## Lec_Sep.21st
+
+using `select`
+
+```{r}
+select(litters_df, Group, Litter.Number, GD0.weight, Pups.born.alive)
+select(litters_df, Group:GD.of.Birth)
+select(litters_df, -Pups.survive)
+select(litters_df, starts_with("GD"))
+select(litters_df, Litter.Number, Pups.survive, everything())
+relocate(litters_df, Litter.Number, Pups.survive)
+```
+
+```{r}
+select(pups_df, litter_number, sex, pd_ears)
+```
+
+```{r}
+filter(litters_df, Group == "Con7")
+filter(litters_df, Group == "Mod8")
+filter(litters_df, Group != "Con7")
+filter(litters_df, GD0.weight > 20)
+filter(litters_df, GD0.weight <= 20)
+filter(litters_df, Group == "Con7" | Group == "Con8")
+filter(litters_df, Group %in% c("Con7", "Con8"))
+filter(litters_df, !(Group == "Con7" & GD.of.Birth == 20))
+```
+what about mising rows:
+```{r}
+drop_na(litters_df)
+drop_na(litters_df, GD0.weight)
+```
+
+```{r}
+mutate(litters_df, wt_gain = GD18.weight - GD0.weight)
+mutate(
+  litters_df, 
+  wt_gain = GD18.weight - GD0.weight,
+       )
+```
+
+```{r}
+head(arrange(litters_df, Group, Pups.born.alive), 10)
 ```
 
