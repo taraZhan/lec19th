@@ -112,6 +112,5 @@ litters_df_cleaned =
 litters_df_cleaned =
   janitor::clean_names(litters_df_cleaned)
 write_csv(litters_df_cleaned, "FAS_litters_cleaned.csv")
-
 ```
 
